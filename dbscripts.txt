@@ -1,0 +1,89 @@
+CREATE TABLE Students (
+    DNI NUMBER PRIMARY KEY,
+    StudentCode VARCHAR2(50) NOT NULL,
+    FirstNames VARCHAR2(100) NOT NULL,
+    LastNames VARCHAR2(100) NOT NULL,
+    Status NUMBER(1) DEFAULT 1
+);
+
+-- Create the Courses table
+CREATE TABLE Courses (
+    CourseID NUMBER PRIMARY KEY,
+    CourseDescription VARCHAR2(200) NOT NULL,
+    CreditHours NUMBER
+);
+
+-- Create the Sections table
+CREATE TABLE Sections (
+    SectionID NUMBER PRIMARY KEY,
+    SectionName VARCHAR2(50) NOT NULL,
+    Status NUMBER(1) DEFAULT 1
+);
+
+-- Create the CourseSectionVacancies table
+CREATE TABLE CourseSectionVacancies (
+    CourseID NUMBER,
+    SectionID NUMBER,
+    Vacancies NUMBER,
+    PRIMARY KEY (CourseID, SectionID),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID),
+    FOREIGN KEY (SectionID) REFERENCES Sections(SectionID)
+);
+
+-- Create the Enrollments table
+CREATE TABLE Enrollments (
+    EnrollmentID NUMBER PRIMARY KEY,
+    StudentDNI NUMBER,
+    CourseID NUMBER,
+    SectionID NUMBER,
+    EnrollmentType VARCHAR2(50),
+    Status NUMBER(1) DEFAULT 1,
+    EnrollmentDate TIMESTAMP,
+    CancellationDate TIMESTAMP,
+    FOREIGN KEY (StudentDNI) REFERENCES Students(DNI),
+    FOREIGN KEY (CourseID) REFERENCES Courses(CourseID),
+    FOREIGN KEY (SectionID) REFERENCES Sections(SectionID)
+);
+
+-- Inserción de datos en la tabla Students
+INSERT INTO Students (DNI, StudentCode, FirstNames, LastNames, Status)
+SELECT 1, 'S001', 'Juan', 'Pérez', 1 FROM DUAL UNION ALL
+SELECT 2, 'S002', 'María', 'González', 1 FROM DUAL UNION ALL
+SELECT 3, 'S003', 'Carlos', 'Martínez', 1 FROM DUAL UNION ALL
+SELECT 4, 'S004', 'Luis', 'Rodríguez', 1 FROM DUAL UNION ALL
+SELECT 5, 'S005', 'Ana', 'López', 1 FROM DUAL;
+
+-- Inserción de datos en la tabla Courses
+INSERT INTO Courses (CourseID, CourseDescription, CreditHours)
+SELECT 1, 'Curso 1', 3 FROM DUAL UNION ALL
+SELECT 2, 'Curso 2', 4 FROM DUAL UNION ALL
+SELECT 3, 'Curso 3', 3 FROM DUAL UNION ALL
+SELECT 4, 'Curso 4', 2 FROM DUAL UNION ALL
+SELECT 5, 'Curso 5', 4 FROM DUAL;
+
+-- Inserción de datos en la tabla Sections
+INSERT INTO Sections (SectionID, SectionName, Status)
+SELECT 1, 'Sección A', 1 FROM DUAL UNION ALL
+SELECT 2, 'Sección B', 1 FROM DUAL UNION ALL
+SELECT 3, 'Sección C', 1 FROM DUAL UNION ALL
+SELECT 4, 'Sección D', 1 FROM DUAL;
+
+-- Inserción de datos en la tabla CourseSectionVacancies (asumiendo que cada curso tiene 4 vacantes en cada sección)
+INSERT INTO CourseSectionVacancies (CourseID, SectionID, Vacancies)
+SELECT CourseID, SectionID, 4
+FROM Courses, Sections;
+
+-- Sequence for Id Generation
+CREATE SEQUENCE ENROLLMENT_SEQ START WITH 1 INCREMENT BY 1;
+
+commit;
+
+
+-----------------------------------------------------------------------------------------
+
+--drop table CourseSectionVacancies;
+--drop table Enrollments;
+--drop table Sections;
+--drop table Courses;
+--drop table Students;
+--DROP SEQUENCE ENROLLMENT_SEQ;

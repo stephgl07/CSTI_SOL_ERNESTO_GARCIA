@@ -1,0 +1,59 @@
+﻿@model IEnumerable<SOL.Domain.Models.DataTransferObjects.Enrollments.Response.GetReportDTO>
+
+@{
+    ViewBag.Title = "Reporte de Matrículas";
+}
+
+<h2 style="margin-top: 40px;">Reporte de Matrículas</h2>
+
+<div class="row" style="margin-top: 40px;">
+    <div class="col-md-6">
+        @Html.ActionLink("Nueva Matricula", "Create", "Home", null, new { @class = "btn btn-primary" })
+    </div>
+    <div class="col-md-6 text-right">
+        @Html.ActionLink("Descargar Excel", "GetReportEnrollment", "Home", null, new { @class = "btn btn-success" })
+    </div>
+</div>
+
+<table class="table table-striped" style="margin-top: 10px;">
+    <thead>
+        <tr>
+            <th>ID MATRICULA</th>
+            <th>CÓDIGO ALUMNO</th>
+            <th>NOMBRES</th>
+            <th>APELLIDOS</th>
+            <th>ID CURSO</th>
+            <th>DESCRIPCIÓN DE CURSO</th>
+            <th>CRÉDITOS</th>
+            <th>NOMBRE DE SECCIÓN</th>
+            <th>TIPO MATRÍCULA</th>
+            <th>FECHA MATRÍCULA</th>
+            <th>FECHA ANULACIÓN</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.EnrollmentId)</td>
+                <td>@Html.DisplayFor(modelItem => item.StudentCode)</td>
+                <td>@Html.DisplayFor(modelItem => item.StudentNames)</td>
+                <td>@Html.DisplayFor(modelItem => item.StudentLastNames)</td>
+                <td>@Html.DisplayFor(modelItem => item.CourseId)</td>
+                <td>@Html.DisplayFor(modelItem => item.CourseDescription)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreditHours)</td>
+                <td>@Html.DisplayFor(modelItem => item.SectionName)</td>
+                <td>@Html.DisplayFor(modelItem => item.EnrollmentType)</td>
+                <td>@Html.DisplayFor(modelItem => item.EnrollmentDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.EnrollmentCancelationDate)</td>
+                <td>
+                    @if (item.Status)
+                    {
+                        @Html.ActionLink("Cancelar", "CancelEnrollment", new { id = item.EnrollmentId }, new { @class = "btn btn-danger btn-sm" })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

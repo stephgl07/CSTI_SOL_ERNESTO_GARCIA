@@ -1,0 +1,54 @@
+﻿@model SOL.Domain.Models.DataTransferObjects.Enrollments.Response.GetReportDTO
+
+@{
+    ViewBag.Title = "Cancelar Matrícula";
+}
+
+<div class="container">
+    <h2>Cancelar Matrícula</h2>
+    <hr />
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Campos</th>
+            <th>Valores</th>
+        </tr>
+        <tr>
+            <td>ID MATRÍCULA</td>
+            <td>@Html.DisplayFor(model => model.EnrollmentId)</td>
+        </tr>
+        <tr>
+            <td>DESCRIPCIÓN CURSO</td>
+            <td>@Html.DisplayFor(model => model.CourseDescription)</td>
+        </tr>
+        <tr>
+            <td>NOMBRE SECCIÓN</td>
+            <td>@Html.DisplayFor(model => model.SectionName)</td>
+        </tr>
+        <tr>
+            <td>CÓDIGO ESTUDIANTE</td>
+            <td>@Html.DisplayFor(model => model.StudentCode)</td>
+        </tr>
+        <tr>
+            <td>TIPO DE MATRÍCULA</td>
+            <td>@Html.DisplayFor(model => model.EnrollmentType)</td>
+        </tr>
+        <tr>
+            <td>FECHA MATRÍCULA</td>
+            <td>@Html.DisplayFor(model => model.EnrollmentDate)</td>
+        </tr>
+        <tr>
+            <td>FECHA DE CANCELAMIENTO DE MATRÍCULA</td>
+            <td>@Html.DisplayFor(model => model.EnrollmentCancelationDate)</td>
+        </tr>
+    </table>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="form-actions no-color">
+            <input type="submit" value="Cancelar" class="btn btn-danger" /> |
+            @Html.ActionLink("Volver a la Lista", "Index", null, new { @class = "btn btn-default" })
+        </div>
+    }
+</div>

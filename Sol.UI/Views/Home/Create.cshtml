@@ -1,0 +1,80 @@
+﻿@model SOL.Domain.Models.DataTransferObjects.Enrollments.Request.RegisterEnrollmentDTO
+
+@{
+    ViewBag.Title = "Matricular Alumno";
+    string disabledValue = "";
+}
+
+<h2>Matricular Alumno</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>ENROLLMENTS</h4>
+        <hr />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentDNI, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("StudentDNI", ViewBag.STUDENTS as SelectList, "Selecciona un estudiante", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.StudentDNI, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CourseID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CourseID", ViewBag.COURSES as SelectList, "Select a Course", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CourseID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.SectionID, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("SectionID", ViewBag.SECTIONS as SelectList, "Select a Section", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.SectionID, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EnrollmentType, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.EnrollmentType, new SelectList(SOL.Domain.Dictionaries.EnrollmentOptions.EnrollmentTypes, "Key", "Value"), "Seleccione una opción", new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.EnrollmentType, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+@if (TempData["ActionTerminated"] != null)
+{
+    var isSuccess = (bool)TempData["IsSuccess"];
+    var messageAlert = (string)TempData["MessageAlert"];
+    var messageAlertDetails = (string)TempData["MessageAlertDetails"];
+
+    <div class="alert @if (isSuccess) { <text> alert-info</text> } else { <text> alert-danger</text> }">
+        @messageAlert
+        @if (!string.IsNullOrEmpty(messageAlertDetails))
+        {
+            <br />
+            @messageAlertDetails
+        }
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-default" })
+</div>
+
+@section Scripts {
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+}
